@@ -12,96 +12,91 @@ struct SignInView: View {
     @State private var lastName = ""
     @State private var email = ""
     
+    @FocusState private var textFieldIsFocused: Bool
+    
     var body: some View {
-        VStack {
-            Text("Sign In")
-                .bold()
-                .font(.system(.title))
-//            Spacer()
-            TextField("First name", text: $firstName)
-                .font(.system(size: 20))
-                .foregroundColor(.gray)
-                .multilineTextAlignment(.center)
-                .background(RoundedRectangle(cornerRadius: 20)
-                    .fill(Color(UIColor.systemGray5))
-                    .frame(height: 40))
-                .padding()
-            
-            TextField("Last name", text: $lastName)
-                .font(.system(size: 20))
-                .foregroundColor(.gray)
-                .multilineTextAlignment(.center)
-                .background(RoundedRectangle(cornerRadius: 20)
-                    .fill(Color(UIColor.systemGray5))
-                    .frame(height: 40))
-                .padding()
-            
-            TextField("Email", text: $email)
-                .font(.system(size: 20))
-                .foregroundColor(.gray)
-                .multilineTextAlignment(.center)
-                .background(RoundedRectangle(cornerRadius: 20)
-                    .fill(Color(UIColor.systemGray5))
-                    .frame(height: 40))
-                .padding()
-            
-            Button {
+        NavigationView {
+            VStack {
+                Text("Sign in")
+                    .font(.custom("MontserratBold", size: 35))
                 
-            } label: {
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(Color.purple)
-                    .frame(height: 60)
-                    .overlay {
-                        Text("Sign In")
-                            .font(.system(.title3))
-                            .bold()
-                            .foregroundColor(.white)
-                    }
-                    .padding()
-            }
-            
-            HStack {
-                Text("Already have an account?")
-                    .font(.system(size: 10))
-                    .foregroundColor(.gray)
+                customTextField(placeholder: "First name", text: $firstName)
+                customTextField(placeholder: "Last name", text: $lastName)
+                customTextField(placeholder: "Email", text: $email)
+                
                 Button {
                     
                 } label: {
-                    Text("Log in")
-                        .font(.system(size: 10))
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(Color.purple)
+                        .frame(height: 60)
+                        .overlay {
+                            Text("Sign in")
+                                .font(.custom("MontserratBold", size: 20))
+                                .foregroundColor(.white)
+                        }
+                        .padding()
                 }
-                Spacer()
+                
+                HStack {
+                    Text("Already have an account?")
+                        .font(.custom("Montserrat", size: 10))
+                        .foregroundColor(.gray)
+                    
+                    NavigationLink(destination: LoginView()) {
+                        Text("Log in")
+                            .font(.custom("Montserrat", size: 10))
+                            .foregroundColor(.blue)
+                    }
+                    Spacer()
+                }
+                .padding(.bottom, 50)
+                .padding(.leading)
+                
+                Button {
+                    print("Apple")
+                } label: {
+                    Image("googleIcon")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 30, height: 30)
+                        .padding(.trailing)
+                    Text("Sign in with Google")
+                        .font(.custom("Montserrat", size: 15))
+                }
+                .foregroundColor(.black)
+                
+                Button {
+                    print("Apple")
+                } label: {
+                    Image(systemName: "apple.logo")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 30, height: 30)
+                        .padding(.trailing)
+                    Text("Sign in with Apple")
+                        .font(.custom("Montserrat", size: 15))
+                }
+                .foregroundColor(.black)
             }
-            .padding(.bottom, 50)
-            .padding(.leading)
-            
-            Button {
-                print("Apple")
-            } label: {
-                 Image("googleIcon")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 30, height: 30)
-                    .padding(.trailing)
-                Text("Sign in with Google")
-                    .font(.system(size: 20))
-            }
-            .foregroundColor(.black)
-            
-            Button {
-                print("Apple")
-            } label: {
-                 Image(systemName: "apple.logo")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 30, height: 30)
-                    .padding(.trailing)
-                Text("Sign in with Apple")
-                    .font(.system(size: 20))
-            }
-            .foregroundColor(.black)
+            .padding()
         }
-        .padding()
+        .onTapGesture {
+            textFieldIsFocused = false
+        }
+    }
+    
+    @ViewBuilder
+    private func customTextField(placeholder: String, text: Binding<String>) -> some View {
+        TextField(placeholder, text: text)
+            .font(.custom("Montserrat", size: 18))
+            .foregroundColor(.gray)
+            .multilineTextAlignment(.center)
+            .background(RoundedRectangle(cornerRadius: 20)
+                .fill(Color(UIColor.systemGray5))
+                .frame(height: 40))
+            .padding()
+            .focused($textFieldIsFocused)
     }
 }
 
